@@ -28,7 +28,7 @@ void TaskManager::updateData(int pid, int pri, QString cmd){
 /*
   ham tim kiem cac tien trinh dang hoat dong
   */
-void TaskManager::refresh(){
+void TaskManager::refresh(QString textSearch){
     int rtn, pri;
     struct sched_param sp;
     char buf[50];
@@ -46,7 +46,14 @@ void TaskManager::refresh(){
             FILE *file = fopen(buf, "r");
             int nchars = fread(cmd, 1, 99999, file);//doc du lieu trong file cmdline
             pri = getpriority(PRIO_PROCESS,pid);//lay gia tri priority ung voi moi pid
-            updateData(pid,pri,cmd);//cap nhat du lieu len info
+
+            //kiem tra xem co fai search du lieu hay khong. sau do cap nhat du lieu len info
+            if(textSearch == NULL)
+                updateData(pid,pri,cmd);//cap nhat du lieu len info
+            else{
+                if(strstr(cmd, textSearch.toAscii().data()))
+                    updateData(pid,pri,cmd);//cap nhat du lieu len info
+            }
             fclose(file);
             strcpy(cmd,"Unknown");
         }
@@ -67,7 +74,7 @@ TaskManager::TaskManager(QWidget *parent) :
         ui->priorityComboBox->addItem(QString::number(i));
     ui->priorityComboBox->setCurrentIndex(-MIN_PRIORITY);//set comboBox ban dau bang 0
 
-    refresh();
+    refresh(NULL);
 }
 
 TaskManager::~TaskManager()
@@ -80,7 +87,7 @@ TaskManager::~TaskManager()
   */
 void TaskManager::on_refreshBtn_clicked()
 {
-    refresh();
+    refresh(NULL);
 }
 
 
@@ -119,12 +126,12 @@ void TaskManager::on_changeBtn_clicked()
             }
 
 
-            refresh();
+            refresh(NULL);
         }else
             QMessageBox::information(this, "Title", "You need to select item!");
 
     }else
-        QMessageBox::information(this, "Title", "You need login!");
+        QMessageBox::information(this, "Title", "You need to login!");
 }
 
 /*
@@ -132,7 +139,17 @@ void TaskManager::on_changeBtn_clicked()
   */
 void TaskManager::on_killProcessBtn_clicked()
 {
-
+    int pid = ui->pidLineEdit->text().toInt();
+    if(pid>0){
+        kill(pid, SIGINT);
+        ui->pidLineEdit->clear();
+        ui->priorityComboBox->setCurrentIndex(-MIN_PRIORITY);//set comboBox bang 0
+        refresh(NULL);
+        char buf[100];
+        sprintf(buf, "Killed Process! \nPID: %d", pid );
+        QMessageBox::information(this, "Title", buf);
+    }else
+        QMessageBox::information(this, "Title", "You need to select item!");
 }
 
 /*
@@ -158,4 +175,10 @@ void TaskManager::on_loginBtn_clicked()
         ui->loginLineEdit->setText("");
     }else
         QMessageBox::information(this, "Title", "You have logged in!");
+}
+
+void TaskManager::on_lineEdit_textChanged(const QString &arg1)
+{
+    QString textChange = ui->lineEdit->text();
+    refresh(textChange);
 }

@@ -22,7 +22,7 @@ class TaskManager : public QMainWindow
 public:
     explicit TaskManager(QWidget *parent = 0);
     ~TaskManager();
-    void refresh();
+    void refresh(QString textSearch);
     
 private slots:
     void on_refreshBtn_clicked();
@@ -34,6 +34,8 @@ private slots:
     void on_killProcessBtn_clicked();
 
     void on_loginBtn_clicked();
+
+    void on_lineEdit_textChanged(const QString &arg1);
 
 private:
     Ui::TaskManager *ui;

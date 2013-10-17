@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'taskmanager.h'
 **
-** Created: Wed Oct 16 00:17:08 2013
+** Created: Thu Oct 17 18:13:57 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_TaskManager[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,6 +36,7 @@ static const uint qt_meta_data_TaskManager[] = {
      103,   12,   12,   12, 0x08,
      126,   12,   12,   12, 0x08,
      154,   12,   12,   12, 0x08,
+     181,  176,   12,   12, 0x08,
 
        0        // eod
 };
@@ -46,7 +47,8 @@ static const char qt_meta_stringdata_TaskManager[] = {
     "on_dislayInfomation_itemClicked(QTreeWidgetItem*,int)\0"
     "on_changeBtn_clicked()\0"
     "on_killProcessBtn_clicked()\0"
-    "on_loginBtn_clicked()\0"
+    "on_loginBtn_clicked()\0arg1\0"
+    "on_lineEdit_textChanged(QString)\0"
 };
 
 void TaskManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -60,6 +62,7 @@ void TaskManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 2: _t->on_changeBtn_clicked(); break;
         case 3: _t->on_killProcessBtn_clicked(); break;
         case 4: _t->on_loginBtn_clicked(); break;
+        case 5: _t->on_lineEdit_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -97,9 +100,9 @@ int TaskManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }
